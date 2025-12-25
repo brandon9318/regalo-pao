@@ -9,16 +9,16 @@
 
     <style>
         /* =========================================
-           1. VARIABLES Y RESET
+           1. RESET Y VARIABLES GLOBALES
            ========================================= */
         :root {
-            --primary: #ff69b4;   /* Rosa */
-            --secondary: #5c3a93; /* Morado */
-            --accent: #ff4757;    /* Rojo suave */
-            --white: #ffffff;
-            --glass: rgba(255, 255, 255, 0.25);
-            --border: rgba(255, 255, 255, 0.4);
-            --shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            --primary-color: #ff69b4;
+            --secondary-color: #5c3a93;
+            --accent-color: #ff4757;
+            --text-white: #ffffff;
+            --glass-bg: rgba(255, 255, 255, 0.25);
+            --glass-border: rgba(255, 255, 255, 0.4);
+            --shadow-strong: 0 20px 60px rgba(0, 0, 0, 0.3);
         }
 
         * {
@@ -36,10 +36,11 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            position: relative;
         }
 
         /* =========================================
-           2. FONDO DE ESTRELLAS
+           2. FONDO DE ESTRELLAS ANIMADAS
            ========================================= */
         .star-field {
             position: absolute;
@@ -56,8 +57,8 @@
             background: white;
             border-radius: 50%;
             opacity: 0;
-            animation: twinkle var(--dur) ease-in-out infinite;
-            animation-delay: var(--del);
+            animation: twinkle var(--duration) ease-in-out infinite;
+            animation-delay: var(--delay);
         }
 
         @keyframes twinkle {
@@ -67,22 +68,23 @@
         }
 
         /* =========================================
-           3. TARJETA PRINCIPAL (GLASSMORPHISM)
+           3. CONTENEDOR PRINCIPAL (TARJETA)
            ========================================= */
         .container {
-            position: relative;
+            text-align: center;
             z-index: 10;
+            position: relative;
             padding: 2.5rem;
             width: 90%;
             max-width: 600px;
-            background: var(--glass);
+            background: var(--glass-bg);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border-radius: 30px;
-            border: 1px solid var(--border);
-            box-shadow: var(--shadow);
-            text-align: center;
+            box-shadow: var(--shadow-strong);
+            border: 1px solid var(--glass-border);
             animation: popIn 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: transform 0.3s ease;
         }
 
         @keyframes popIn {
@@ -90,46 +92,53 @@
             to { opacity: 1; transform: scale(1) translateY(0); }
         }
 
+        /* =========================================
+           4. TIPOGRAFÍA Y TEXTOS
+           ========================================= */
         h1 {
             font-family: 'Pacifico', cursive;
             font-size: clamp(2.5rem, 6vw, 4rem);
-            color: var(--white);
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            color: var(--text-white);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
             margin-bottom: 15px;
+            letter-spacing: 1px;
             line-height: 1.2;
         }
 
         .subtitle {
             font-size: clamp(1.1rem, 3.5vw, 1.4rem);
-            color: var(--white);
+            color: var(--text-white);
             margin-bottom: 25px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
             font-weight: 600;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
         }
 
         .details {
             font-size: clamp(0.9rem, 2.5vw, 1.1rem);
-            color: var(--secondary);
-            background: rgba(255,255,255,0.5);
+            color: var(--secondary-color);
+            background: rgba(255, 255, 255, 0.5);
             padding: 8px 20px;
             border-radius: 50px;
             display: inline-block;
             margin-bottom: 30px;
             font-weight: 700;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
 
         /* =========================================
-           4. BOTONES
+           5. BOTONES
            ========================================= */
-        .controls {
+        .controls-area {
             display: flex;
             flex-direction: column;
             gap: 15px;
             align-items: center;
             margin-bottom: 30px;
         }
-        
-        .btn {
+
+        .action-btn {
+            background: var(--primary-color);
+            color: white;
             border: none;
             padding: 14px 35px;
             font-size: 1.1rem;
@@ -138,18 +147,18 @@
             border-radius: 50px;
             cursor: pointer;
             box-shadow: 0 5px 15px rgba(255, 105, 180, 0.4);
-            transition: 0.3s;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             display: flex;
             align-items: center;
-            gap: 10px;
+            justify-content: center;
+            gap: 12px;
             width: 80%;
             max-width: 300px;
-            justify-content: center;
             position: relative;
             overflow: hidden;
         }
 
-        .btn::after {
+        .action-btn::after {
             content: '';
             position: absolute;
             top: 0;
@@ -160,66 +169,165 @@
             transition: 0.5s;
         }
 
-        .btn:hover::after { left: 100%; }
-        .btn:active { transform: scale(0.95); }
+        .action-btn:hover::after {
+            left: 100%;
+        }
 
-        .btn-music { background: var(--primary); color: white; }
-        .btn-music.playing { background: var(--accent); animation: pulse 2s infinite; }
-        
-        .btn-letter { background: white; color: var(--secondary); }
+        .action-btn:active {
+            transform: scale(0.95);
+        }
 
-        @keyframes pulse {
+        .play-btn.playing {
+            background: var(--accent-color);
+            animation: pulse-border 2s infinite;
+        }
+
+        .letter-btn {
+            background: #fff;
+            color: var(--secondary-color);
+        }
+
+        @keyframes pulse-border {
             0% { box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.7); }
             70% { box-shadow: 0 0 0 20px rgba(255, 71, 87, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 71, 87, 0); }
         }
 
         /* =========================================
-           5. OSITOS Y EFECTOS
+           6. OSITOS ESTÁTICOS
            ========================================= */
-        .bears {
+        .bear-container {
             display: flex;
             justify-content: center;
             gap: 20px;
+            perspective: 1000px;
         }
 
-        .bear-icon {
+        .bear-static {
             font-size: clamp(3rem, 10vw, 4.5rem);
             cursor: pointer;
-            transition: 0.4s;
+            transition: all 0.4s ease;
             filter: drop-shadow(0 8px 8px rgba(0,0,0,0.15));
             user-select: none;
+            display: inline-block;
         }
-        
-        .bear-icon:hover {
+
+        .bear-static:hover {
             transform: scale(1.2) rotate(10deg) translateY(-10px);
         }
 
+        /* =========================================
+           7. MODAL (CARTA)
+           ========================================= */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 100%;
+            text-align: left;
+            position: relative;
+            transform: translateY(50px);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            font-family: 'Pacifico', cursive;
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            text-align: center;
+            border-bottom: 2px dashed #eee;
+            padding-bottom: 10px;
+        }
+
+        .modal-body {
+            font-size: 1.1rem;
+            color: #444;
+            line-height: 1.8;
+            margin-bottom: 25px;
+            white-space: pre-line;
+        }
+
+        .close-modal {
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            display: block;
+            margin: 0 auto;
+            transition: background 0.3s;
+        }
+
+        .close-modal:hover {
+            background: #4a2e7a;
+        }
+
+        /* =========================================
+           8. ANIMACIONES FLOTANTES
+           ========================================= */
         .falling-item {
             position: absolute;
-            top: -50px;
             font-size: 2rem;
-            animation: fall linear forwards;
+            top: -60px;
+            user-select: none;
             cursor: pointer;
             z-index: 5;
+            animation-name: fall;
+            animation-timing-function: linear;
+            animation-fill-mode: forwards;
         }
 
         @keyframes fall {
             to { transform: translateY(110vh) rotate(360deg); }
         }
 
-        .burst {
+        .burst-particle {
             position: absolute;
             pointer-events: none;
-            animation: fly 1s ease-out forwards;
-            font-size: 1.5rem;
+            animation: burst 1s ease-out forwards;
             z-index: 20;
+            font-size: 1.2rem;
         }
 
-        @keyframes fly {
-            to { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(1.5) rotate(var(--r)); }
+        @keyframes burst {
+            0% { opacity: 1; transform: translate(0, 0) scale(0.5); }
+            100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(1.5) rotate(var(--rot)); }
         }
 
-        .float-text {
+        .floating-text {
             position: absolute;
             font-size: 1.5rem;
             color: white;
@@ -231,253 +339,242 @@
         }
 
         @keyframes floatUp {
-            to { opacity: 0; transform: translateY(-100px); }
+            0% { opacity: 0; transform: translateY(10px) scale(0.8); }
+            20% { opacity: 1; transform: translateY(0) scale(1.2); }
+            100% { opacity: 0; transform: translateY(-100px) scale(1); }
         }
 
-        /* =========================================
-           6. CARTA (MODAL)
-           ========================================= */
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.6);
-            z-index: 100;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: 0.4s;
-            padding: 20px;
-        }
+        #player { display: none; }
 
-        .modal.active {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        .modal-box {
-            background: white;
-            padding: 30px;
-            border-radius: 20px;
-            max-width: 500px;
-            width: 100%;
-            transform: translateY(50px);
-            transition: 0.4s;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-
-        .modal.active .modal-box {
-            transform: translateY(0);
-        }
-
-        .modal-title {
-            font-family: 'Pacifico', cursive;
-            font-size: 2rem;
-            color: var(--primary);
-            text-align: center;
-            margin-bottom: 20px;
-            border-bottom: 2px dashed #eee;
-        }
-
-        .modal-text {
-            font-size: 1.1rem;
-            color: #444;
-            line-height: 1.8;
-            margin-bottom: 25px;
-            white-space: pre-line;
-        }
-
-        .btn-close {
-            display: block;
-            margin: 0 auto;
-            background: var(--secondary);
-            color: white;
-            border: none;
-            padding: 10px 25px;
-            border-radius: 30px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        /* =========================================
-           7. REPRODUCTOR OCULTO (1px)
-           ========================================= */
-        #player {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 1px;
-            height: 1px;
-            opacity: 0.01;
-            pointer-events: none;
+        @media (max-width: 480px) {
+            .container { padding: 1.5rem; }
+            h1 { font-size: 2.2rem; }
+            .bear-static { font-size: 3rem; }
         }
     </style>
 </head>
 <body>
-    <div class="star-field" id="stars"></div>
+
+    <div class="star-field" id="starField"></div>
 
     <div class="container">
         <h1>¡Te quiero mucho, Pao! 💖</h1>
         <div class="subtitle">¡Eres muy especial! ✨</div>
         <div class="details">De Brandon para Pao 🎄 Feliz Navidad</div>
 
-        <div class="controls">
-            <button class="btn btn-music" id="musicBtn" onclick="toggleMusic()">
-                <span>🎵</span> <span id="btnText">Dedicar canción</span>
+        <div class="controls-area">
+            <button class="action-btn play-btn" id="musicBtn" onclick="toggleMusic()">
+                <span class="icon">🎵</span> 
+                <span class="text" id="btnText">Dedicar canción</span>
             </button>
-            
-            <button class="btn btn-letter" onclick="toggleLetter(true)">
-                <span>💌</span> <span>Leer cartita</span>
+
+            <button class="action-btn letter-btn" onclick="openLetter()">
+                <span class="icon">💌</span> 
+                <span class="text">Leer cartita</span>
             </button>
         </div>
 
-        <div class="bears">
-            <span class="bear-icon" onclick="burst(event)">🧸</span>
-            <span class="bear-icon" onclick="burst(event)">❤️</span>
-            <span class="bear-icon" onclick="burst(event)">🧸</span>
+        <div class="bear-container">
+            <span class="bear-static" onclick="manualBurst(event)">🧸</span>
+            <span class="bear-static" onclick="manualBurst(event)">❤️</span>
+            <span class="bear-static" onclick="manualBurst(event)">🧸</span>
         </div>
     </div>
 
-    <div class="modal" id="letterModal" onclick="if(event.target===this) toggleLetter(false)">
-        <div class="modal-box">
-            <div class="modal-title">Para Pao 💕</div>
-            <div class="modal-text">
+    <div class="modal-overlay" id="letterModal">
+        <div class="modal-content">
+            <div class="modal-header">Para mi niña Pao 💕</div>
+            <div class="modal-body">
                 ¡Hola Pao! 
                 
-                Quería darte este pequeño detalle para recordarte lo especial que eres.
+                Quería hacerte este pequeño detalle digital para recordarte lo especial que eres para mí. 
                 
-                Espero que pases una Navidad increíble. Me encanta compartir momentos contigo.
-                
-                ¡Te quiero mucho! ✨
+                Me encanta pasar tiempo contigo y espero que esta Navidad esté llena de alegría para ti. 
                 
                 Atte: Brandon 🧸
             </div>
-            <button class="btn-close" onclick="toggleLetter(false)">Cerrar</button>
+            <button class="close-modal" onclick="closeLetter()">Cerrar cartita</button>
         </div>
     </div>
 
     <div id="player"></div>
 
     <script>
-        // --- 1. GENERAR ESTRELLAS DE FONDO ---
-        const starsObj = document.getElementById('stars');
-        for(let i=0; i<50; i++) {
-            const s = document.createElement('div');
-            s.className = 'star';
-            s.style.left = Math.random()*100 + '%';
-            s.style.top = Math.random()*100 + '%';
-            s.style.width = s.style.height = (Math.random()*3+1) + 'px';
-            s.style.setProperty('--dur', (Math.random()*3+2)+'s');
-            s.style.setProperty('--del', (Math.random()*5)+'s');
-            starsObj.appendChild(s);
-        }
+        // --- 1. ESTRELLAS ---
+        function createStars() {
+            const starField = document.getElementById('starField');
+            const count = 50; 
 
-        // --- 2. CONFIGURACIÓN DE AUDIO (JUAN GABRIEL) ---
-        var player, isPlaying = false;
+            for (let i = 0; i < count; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                const x = Math.random() * 100;
+                const y = Math.random() * 100;
+                const size = Math.random() * 3 + 1;
+                const duration = Math.random() * 3 + 2;
+                const delay = Math.random() * 5;
+
+                star.style.left = x + '%';
+                star.style.top = y + '%';
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                star.style.setProperty('--duration', duration + 's');
+                star.style.setProperty('--delay', delay + 's');
+
+                starField.appendChild(star);
+            }
+        }
+        createStars();
+
+        // --- 2. YOUTUBE ---
+        var player;
+        var isPlaying = false;
+        
         var tag = document.createElement('script');
         tag.src = "https://www.youtube.com/iframe_api";
-        document.body.appendChild(tag);
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('player', {
-                height: '1',  // Importante: no usar 0 ni display:none
-                width: '1',
+                height: '0',
+                width: '0',
                 videoId: 'yRj7r21dZ6I', 
                 playerVars: { 'playsinline': 1, 'controls': 0, 'loop': 1, 'playlist': 'yRj7r21dZ6I' },
-                events: { 'onReady': (e) => e.target.setVolume(100) }
+                events: { 'onReady': onPlayerReady }
             });
+        }
+
+        function onPlayerReady(event) {
+            console.log("Reproductor listo");
+            event.target.setVolume(100);
         }
 
         function toggleMusic() {
             const btn = document.getElementById('musicBtn');
             const txt = document.getElementById('btnText');
-            
-            if(!player) return;
+            const icon = btn.querySelector('.icon');
 
-            if(isPlaying) {
+            if (!player) return;
+
+            if (isPlaying) {
                 player.pauseVideo();
                 btn.classList.remove('playing');
                 txt.textContent = "Reproducir canción";
+                icon.textContent = "🎵";
                 isPlaying = false;
             } else {
                 player.playVideo();
                 btn.classList.add('playing');
                 txt.textContent = "Sonando: Me gustas mucho...";
+                icon.textContent = "⏸";
                 isPlaying = true;
-                
-                // Efecto visual al iniciar
-                for(let i=0; i<3; i++) setTimeout(() => 
-                    createBurst(window.innerWidth/2, window.innerHeight/2), i*300);
+                massiveBurst();
             }
         }
 
-        // --- 3. FUNCIONES DE INTERFAZ ---
-        function toggleLetter(show) {
-            const m = document.getElementById('letterModal');
-            show ? m.classList.add('active') : m.classList.remove('active');
+        // --- 3. MODAL ---
+        function openLetter() {
+            document.getElementById('letterModal').classList.add('active');
+            createHeartBurst(window.innerWidth / 2, window.innerHeight / 2);
         }
 
-        // Generar explosión al clic manual
-        function burst(e) {
-            createBurst(e.clientX, e.clientY);
-            createFloatText(e.clientX, e.clientY);
+        function closeLetter() {
+            document.getElementById('letterModal').classList.remove('active');
         }
 
-        // Efecto de explosión de corazones
-        function createBurst(x, y) {
-            const symbols = ['❤️', '💕', '✨', '🌸', '💖'];
-            for(let i=0; i<12; i++) {
+        document.getElementById('letterModal').addEventListener('click', function(e) {
+            if (e.target === this) closeLetter();
+        });
+
+        // --- 4. EFECTOS ---
+        const isMobile = window.innerWidth < 768;
+
+        function createFallingItem() {
+            const item = document.createElement('div');
+            item.className = 'falling-item';
+            
+            const rand = Math.random();
+            if (rand < 0.6) item.textContent = '🧸';
+            else if (rand < 0.8) item.textContent = '💖';
+            else item.textContent = '✨';
+
+            item.style.left = Math.random() * 90 + 5 + '%';
+            const duration = Math.random() * 5 + 4;
+            item.style.animationDuration = duration + 's';
+
+            document.body.appendChild(item);
+
+            item.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const rect = item.getBoundingClientRect();
+                createHeartBurst(rect.left + rect.width/2, rect.top + rect.height/2);
+                createFloatingText(rect.left, rect.top);
+                item.remove();
+            });
+
+            setTimeout(() => { if (item.parentNode) item.remove(); }, duration * 1000);
+        }
+
+        function manualBurst(e) {
+            createHeartBurst(e.clientX, e.clientY);
+            createFloatingText(e.clientX, e.clientY);
+        }
+
+        function massiveBurst() {
+            for(let i=0; i<3; i++) {
+                setTimeout(() => {
+                    createHeartBurst(window.innerWidth/2, window.innerHeight/2);
+                }, i * 300);
+            }
+        }
+
+        function createHeartBurst(x, y) {
+            const particles = ['❤️', '💕', '✨', '🌸', '😍', '💖'];
+            const particleCount = 12;
+
+            for (let i = 0; i < particleCount; i++) {
                 const p = document.createElement('div');
-                p.className = 'burst';
-                p.textContent = symbols[Math.floor(Math.random()*symbols.length)];
-                p.style.left = x + 'px'; p.style.top = y + 'px';
-                
+                p.className = 'burst-particle';
+                p.textContent = particles[Math.floor(Math.random() * particles.length)];
+                p.style.left = x + 'px';
+                p.style.top = y + 'px';
+
                 const angle = Math.random() * Math.PI * 2;
-                const dist = Math.random() * 100 + 50;
-                p.style.setProperty('--tx', Math.cos(angle)*dist + 'px');
-                p.style.setProperty('--ty', Math.sin(angle)*dist + 'px');
-                p.style.setProperty('--r', Math.random()*360 + 'deg');
+                const velocity = Math.random() * 150 + 60;
                 
+                const tx = Math.cos(angle) * velocity;
+                const ty = Math.sin(angle) * velocity;
+                const rot = Math.random() * 360;
+
+                p.style.setProperty('--tx', tx + 'px');
+                p.style.setProperty('--ty', ty + 'px');
+                p.style.setProperty('--rot', rot + 'deg');
+
                 document.body.appendChild(p);
                 setTimeout(() => p.remove(), 1000);
             }
         }
 
-        // Efecto de texto flotante
-        function createFloatText(x, y) {
-            // Frases suaves
-            const texts = ['¡Te Quiero!', '¡Linda!', '💕', '¡Me Gustas!'];
-            const t = document.createElement('div');
-            t.className = 'float-text';
-            t.textContent = texts[Math.floor(Math.random()*texts.length)];
-            t.style.left = (x + (Math.random()-0.5)*40) + 'px';
-            t.style.top = y + 'px';
-            document.body.appendChild(t);
-            setTimeout(() => t.remove(), 2000);
+        function createFloatingText(x, y) {
+            // CAMBIO AQUÍ: Frases menos intensas
+            const phrases = ['¡Te Quiero!', '¡Cafeee!', '¡Paupau!', '💕', '¡te aprecio!', '¡Me Gustas!'];
+            const text = document.createElement('div');
+            text.className = 'floating-text';
+            text.textContent = phrases[Math.floor(Math.random() * phrases.length)];
+            
+            const offsetX = (Math.random() - 0.5) * 40;
+            text.style.left = (x + offsetX) + 'px';
+            text.style.top = y + 'px';
+            
+            document.body.appendChild(text);
+            setTimeout(() => text.remove(), 2000);
         }
 
-        // --- 4. LLUVIA DE OBJETOS ---
-        setInterval(() => {
-            const el = document.createElement('div');
-            el.className = 'falling-item';
-            el.textContent = Math.random()>0.5 ? '🧸' : '💖';
-            el.style.left = Math.random()*90+5 + '%';
-            el.style.animationDuration = (Math.random()*5+4) + 's';
-            document.body.appendChild(el);
-            
-            el.onclick = (e) => {
-                e.stopPropagation();
-                burst(e);
-                el.remove();
-            };
-            setTimeout(() => { if(el.parentNode) el.remove(); }, 9000);
-        }, window.innerWidth<768 ? 800 : 400);
+        const rainSpeed = isMobile ? 800 : 400;
+        setInterval(createFallingItem, rainSpeed);
 
+        console.log("Sistema cargado");
     </script>
 </body>
 </html>
