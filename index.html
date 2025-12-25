@@ -235,12 +235,102 @@
                 transform: translate(0, 0) rotate(360deg);
             }
         }
+
+        /* Responsive para móviles */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                padding: 25px 20px;
+                max-width: 95%;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .subtitle {
+                font-size: 1.2rem;
+            }
+
+            .falling-bear {
+                font-size: 2.5rem;
+            }
+
+            .astronaut-bear {
+                font-size: 2.5rem;
+            }
+
+            .bear-static {
+                font-size: 3rem;
+            }
+
+            .bear-container {
+                gap: 15px;
+                margin-top: 20px;
+            }
+
+            .love-text {
+                font-size: 1.5rem;
+            }
+
+            .heart-burst {
+                font-size: 1.2rem;
+            }
+
+            @keyframes floatAround {
+                0% {
+                    transform: translate(0, 0) rotate(0deg);
+                }
+                25% {
+                    transform: translate(80px, -50px) rotate(90deg);
+                }
+                50% {
+                    transform: translate(150px, 30px) rotate(180deg);
+                }
+                75% {
+                    transform: translate(80px, 80px) rotate(270deg);
+                }
+                100% {
+                    transform: translate(0, 0) rotate(360deg);
+                }
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.6rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+
+            .container {
+                padding: 20px 15px;
+            }
+
+            .falling-bear {
+                font-size: 2rem;
+            }
+
+            .astronaut-bear {
+                font-size: 2rem;
+            }
+
+            .bear-static {
+                font-size: 2.5rem;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>¡Te quiero mucho, Pao! 💖</h1>
         <div class="subtitle">Te Apreciooo 💖</div>
+        <div class="subtitle" style="font-size: 1.3rem; margin-top: 10px;">De Brandon para Pao 🎄 Feliz Navidad 🎅</div>
         
 
 
@@ -341,16 +431,21 @@
             document.body.appendChild(bear);
         }
 
-        // Crear varios osos astronautas
-        for (let i = 0; i < 6; i++) {
+        // Crear varios osos astronautas (menos en móvil)
+        const isMobile = window.innerWidth <= 768;
+        const numAstronauts = isMobile ? 3 : 6;
+        
+        for (let i = 0; i < numAstronauts; i++) {
             createAstronautBear();
         }
 
-        // Hacer lluvia continua de osos
-        setInterval(createFallingBear, 400); // Un oso cada 400ms
+        // Hacer lluvia continua de osos (menos frecuente en móvil)
+        const rainInterval = isMobile ? 600 : 400;
+        setInterval(createFallingBear, rainInterval);
 
-        // Crear brillos continuamente
-        setInterval(createSparkle, 500);
+        // Crear brillos continuamente (menos en móvil)
+        const sparkleInterval = isMobile ? 800 : 500;
+        setInterval(createSparkle, sparkleInterval);
 
         // Agregar evento click a los osos estáticos
         document.querySelectorAll('.bear-static').forEach(bear => {
