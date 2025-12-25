@@ -3,8 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Te quiero mucho, Pao! 💕</title>
+    <title>Para Pao 💕</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+
     <style>
+        /* =========================================
+           1. RESET Y VARIABLES GLOBALES
+           ========================================= */
+        :root {
+            --primary-color: #ff69b4;
+            --secondary-color: #5c3a93;
+            --accent-color: #ff4757;
+            --text-white: #ffffff;
+            --glass-bg: rgba(255, 255, 255, 0.25);
+            --glass-border: rgba(255, 255, 255, 0.4);
+            --shadow-strong: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -13,486 +29,612 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Quicksand', sans-serif;
             background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
             min-height: 100vh;
-            overflow-x: hidden;
+            overflow: hidden; /* Importante para que no haya scroll por las animaciones */
             display: flex;
             justify-content: center;
             align-items: center;
             position: relative;
         }
 
+        /* =========================================
+           2. FONDO DE ESTRELLAS ANIMADAS
+           ========================================= */
+        .star-field {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0;
+            animation: twinkle var(--duration) ease-in-out infinite;
+            animation-delay: var(--delay);
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0; transform: scale(0); }
+            50% { opacity: 0.8; transform: scale(1); }
+            100% { opacity: 0; transform: scale(0); }
+        }
+
+        /* =========================================
+           3. CONTENEDOR PRINCIPAL (TARJETA)
+           ========================================= */
         .container {
             text-align: center;
             z-index: 10;
             position: relative;
             padding: 2.5rem;
             width: 90%;
-            max-width: 700px;
-            background: rgba(255, 255, 255, 0.25);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            max-width: 600px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             border-radius: 30px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: var(--shadow-strong);
+            border: 1px solid var(--glass-border);
+            animation: popIn 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: transform 0.3s ease;
         }
 
         @keyframes popIn {
-            from { opacity: 0; transform: scale(0.8); }
-            to { opacity: 1; transform: scale(1); }
+            from { opacity: 0; transform: scale(0.8) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
         }
 
+        /* =========================================
+           4. TIPOGRAFÍA Y TEXTOS
+           ========================================= */
         h1 {
-            font-size: clamp(2rem, 5vw, 3.5rem);
-            color: #fff;
-            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
-            margin-bottom: 10px;
+            font-family: 'Pacifico', cursive;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            color: var(--text-white);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            margin-bottom: 15px;
+            letter-spacing: 1px;
             line-height: 1.2;
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
         }
 
         .subtitle {
-            font-size: clamp(1rem, 3vw, 1.5rem);
-            color: #fff;
-            margin-bottom: 15px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-            font-weight: 500;
+            font-size: clamp(1.1rem, 3.5vw, 1.4rem);
+            color: var(--text-white);
+            margin-bottom: 25px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+            font-weight: 600;
         }
 
         .details {
-            font-size: clamp(0.9rem, 2.5vw, 1.2rem);
-            color: #5c3a93;
+            font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+            color: var(--secondary-color);
             background: rgba(255, 255, 255, 0.5);
-            padding: 10px 20px;
+            padding: 8px 20px;
             border-radius: 50px;
             display: inline-block;
-            margin-bottom: 20px;
-            font-weight: bold;
+            margin-bottom: 30px;
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
 
-        /* REPRODUCTOR DE MÚSICA */
-        .music-control {
-            margin: 20px auto;
-            position: relative;
-            z-index: 20;
+        /* =========================================
+           5. BOTONES (MÚSICA Y CARTA)
+           ========================================= */
+        .controls-area {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+            margin-bottom: 30px;
         }
 
-        .play-btn {
-            background: #ff69b4;
+        .action-btn {
+            background: var(--primary-color);
             color: white;
             border: none;
-            padding: 12px 30px;
-            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            padding: 14px 35px;
+            font-size: 1.1rem;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 700;
             border-radius: 50px;
             cursor: pointer;
             box-shadow: 0 5px 15px rgba(255, 105, 180, 0.4);
-            transition: transform 0.2s, background 0.2s;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            margin: 0 auto;
-            width: fit-content;
-            user-select: none;
+            gap: 12px;
+            width: 80%;
+            max-width: 300px;
+            position: relative;
+            overflow: hidden;
         }
 
-        .play-btn:active {
+        /* Efecto de brillo al pasar el mouse */
+        .action-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: 0.5s;
+        }
+
+        .action-btn:hover::after {
+            left: 100%;
+        }
+
+        .action-btn:active {
             transform: scale(0.95);
         }
 
+        /* Botón de música activo */
         .play-btn.playing {
-            background: #ff4757;
+            background: var(--accent-color);
             animation: pulse-border 2s infinite;
+        }
+
+        /* Botón de carta (estilo diferente) */
+        .letter-btn {
+            background: #fff;
+            color: var(--secondary-color);
         }
 
         @keyframes pulse-border {
             0% { box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.7); }
-            70% { box-shadow: 0 0 0 15px rgba(255, 71, 87, 0); }
+            70% { box-shadow: 0 0 0 20px rgba(255, 71, 87, 0); }
             100% { box-shadow: 0 0 0 0 rgba(255, 71, 87, 0); }
         }
 
-        /* OSITOS INTERACTIVOS */
+        /* =========================================
+           6. OSITOS ESTÁTICOS
+           ========================================= */
         .bear-container {
             display: flex;
             justify-content: center;
-            gap: clamp(10px, 3vw, 20px);
-            margin-top: 20px;
+            gap: 20px;
+            perspective: 1000px;
         }
 
         .bear-static {
-            font-size: clamp(2.5rem, 8vw, 4rem);
+            font-size: clamp(3rem, 10vw, 4.5rem);
             cursor: pointer;
-            transition: transform 0.3s;
+            transition: all 0.4s ease;
+            filter: drop-shadow(0 8px 8px rgba(0,0,0,0.15));
             user-select: none;
-            filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.2));
-            animation: bounce 2s ease-in-out infinite;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
-        }
-
-        .bear-static:nth-child(2) {
-            animation-delay: 0.2s;
+            display: inline-block;
         }
 
         .bear-static:hover {
-            transform: scale(1.2) rotate(10deg) translateY(-15px);
+            transform: scale(1.2) rotate(10deg) translateY(-10px);
         }
 
-        .bear-static:active {
-            transform: scale(0.9);
+        /* =========================================
+           7. MODAL (CARTA)
+           ========================================= */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+            padding: 20px;
         }
 
-        /* LLUVIA DE OSITOS */
-        .falling-bear {
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 100%;
+            text-align: left;
+            position: relative;
+            transform: translateY(50px);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            font-family: 'Pacifico', cursive;
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            text-align: center;
+            border-bottom: 2px dashed #eee;
+            padding-bottom: 10px;
+        }
+
+        .modal-body {
+            font-size: 1.1rem;
+            color: #444;
+            line-height: 1.8;
+            margin-bottom: 25px;
+            white-space: pre-line; /* Respeta los saltos de línea */
+        }
+
+        .close-modal {
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            display: block;
+            margin: 0 auto;
+            transition: background 0.3s;
+        }
+
+        .close-modal:hover {
+            background: #4a2e7a;
+        }
+
+        /* =========================================
+           8. ANIMACIONES FLOTANTES (PARTÍCULAS)
+           ========================================= */
+        .falling-item {
             position: absolute;
-            font-size: clamp(2rem, 5vw, 3rem);
-            top: -50px;
+            font-size: 2rem;
+            top: -60px;
             user-select: none;
             cursor: pointer;
             z-index: 5;
-            animation: fall linear forwards;
-            filter: drop-shadow(3px 3px 5px rgba(0, 0, 0, 0.3));
-            transition: transform 0.3s ease;
-        }
-
-        .falling-bear:hover {
-            transform: scale(1.3) rotate(15deg);
+            animation-name: fall;
+            animation-timing-function: linear;
+            animation-fill-mode: forwards;
         }
 
         @keyframes fall {
             to { transform: translateY(110vh) rotate(360deg); }
         }
 
-        /* OSOS ASTRONAUTAS */
-        .astronaut-bear {
+        .burst-particle {
             position: absolute;
-            font-size: clamp(2rem, 5vw, 3.5rem);
-            animation: floatAround 20s linear infinite;
-            filter: drop-shadow(3px 3px 8px rgba(0, 0, 0, 0.4));
-            z-index: 5;
-            user-select: none;
-        }
-
-        @keyframes floatAround {
-            0% { transform: translate(0, 0) rotate(0deg); }
-            25% { transform: translate(200px, -100px) rotate(90deg); }
-            50% { transform: translate(400px, 50px) rotate(180deg); }
-            75% { transform: translate(200px, 150px) rotate(270deg); }
-            100% { transform: translate(0, 0) rotate(360deg); }
-        }
-
-        /* EFECTOS DE CLICK */
-        .heart-burst {
-            position: absolute;
-            font-size: clamp(1.2rem, 3vw, 1.5rem);
-            animation: heartBurst 1s ease-out forwards;
             pointer-events: none;
-            z-index: 100;
+            animation: burst 1s ease-out forwards;
+            z-index: 20;
+            font-size: 1.2rem;
         }
 
-        @keyframes heartBurst {
-            0% {
-                opacity: 1;
-                transform: translate(0, 0) scale(0);
-            }
-            50% {
-                opacity: 1;
-                transform: translate(var(--tx), var(--ty)) scale(1.5);
-            }
-            100% {
-                opacity: 0;
-                transform: translate(calc(var(--tx) * 2), calc(var(--ty) * 2)) scale(0.5);
-            }
+        @keyframes burst {
+            0% { opacity: 1; transform: translate(0, 0) scale(0.5); }
+            100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(1.5) rotate(var(--rot)); }
         }
 
-        .love-text {
+        .floating-text {
             position: absolute;
-            font-size: clamp(1.5rem, 4vw, 2rem);
-            color: #ff69b4;
-            font-weight: bold;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-            animation: loveTextFloat 2s ease-out forwards;
+            font-size: 1.5rem;
+            color: white;
+            font-weight: 800;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
             pointer-events: none;
-            z-index: 100;
+            z-index: 25;
+            animation: floatUp 2s ease-out forwards;
         }
 
-        @keyframes loveTextFloat {
-            0% {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
-            100% {
-                opacity: 0;
-                transform: translateY(-150px) scale(1.5);
-            }
+        @keyframes floatUp {
+            0% { opacity: 0; transform: translateY(10px) scale(0.8); }
+            20% { opacity: 1; transform: translateY(0) scale(1.2); }
+            100% { opacity: 0; transform: translateY(-100px) scale(1); }
         }
 
-        /* BRILLOS */
-        .sparkle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: white;
-            border-radius: 50%;
-            animation: sparkleAnim 3s ease-in-out infinite;
-            box-shadow: 0 0 10px #fff, 0 0 20px #fff;
-            z-index: 3;
-        }
+        /* Ocultar el div de YouTube */
+        #player { display: none; }
 
-        @keyframes sparkleAnim {
-            0%, 100% {
-                opacity: 0;
-                transform: scale(0);
-            }
-            50% {
-                opacity: 1;
-                transform: scale(1.5);
-            }
-        }
-
-        /* RESPONSIVE MÓVIL */
-        @media (max-width: 768px) {
-            body {
-                padding: 10px;
-            }
-
-            .container {
-                padding: 1.5rem;
-                width: 95%;
-            }
-
-            .play-btn {
-                padding: 10px 25px;
-            }
-
-            @keyframes floatAround {
-                0% { transform: translate(0, 0) rotate(0deg); }
-                25% { transform: translate(80px, -50px) rotate(90deg); }
-                50% { transform: translate(150px, 30px) rotate(180deg); }
-                75% { transform: translate(80px, 80px) rotate(270deg); }
-                100% { transform: translate(0, 0) rotate(360deg); }
-            }
-        }
-
+        /* Media Queries para ajustes finos */
         @media (max-width: 480px) {
-            .container {
-                padding: 1.2rem;
-            }
-
-            .details {
-                padding: 8px 15px;
-            }
+            .container { padding: 1.5rem; }
+            h1 { font-size: 2.2rem; }
+            .bear-static { font-size: 3rem; }
         }
     </style>
 </head>
 <body>
+
+    <div class="star-field" id="starField"></div>
+
     <div class="container">
         <h1>¡Te quiero mucho, Pao! 💖</h1>
-        <div class="subtitle">Te Apreciooo 💖</div>
-        <div class="details">De Brandon para Pao 🎄 Feliz Navidad 🎅</div>
+        <div class="subtitle">te aprecio ✨</div>
+        <div class="details">De Brandon para Pao 🎄 Feliz Navidad</div>
 
-        <!-- Reproductor de música -->
-        <div class="music-control">
-            <button class="play-btn" id="playBtn">
-                <span id="playIcon">▶️</span>
-                <span id="playText">Música para ti</span>
+        <div class="controls-area">
+            <button class="action-btn play-btn" id="musicBtn" onclick="toggleMusic()">
+                <span class="icon">🎵</span> 
+                <span class="text" id="btnText">Dedicar canción</span>
+            </button>
+
+            <button class="action-btn letter-btn" onclick="openLetter()">
+                <span class="icon">💌</span> 
+                <span class="text">Leer cartita</span>
             </button>
         </div>
 
         <div class="bear-container">
-            <span class="bear-static">🧸</span>
-            <span class="bear-static">💕</span>
-            <span class="bear-static">🧸</span>
+            <span class="bear-static" onclick="manualBurst(event)">🧸</span>
+            <span class="bear-static" onclick="manualBurst(event)">❤️</span>
+            <span class="bear-static" onclick="manualBurst(event)">🧸</span>
         </div>
     </div>
 
-    <script>
-        // SISTEMA DE AUDIO
-        let audioContext;
-        let oscillator;
-        let gainNode;
-        let isPlaying = false;
+    <div class="modal-overlay" id="letterModal">
+        <div class="modal-content">
+            <div class="modal-header">Para mi niña Pao 💕</div>
+            <div class="modal-body">
+                ¡Hola Pao! 
+                
+                Quería hacerte este pequeño detalle digital para recordarte lo especial que eres para mí. Aunque es solo código, lleva mucho cariño.
+                
+                Me encanta pasar tiempo contigo y espero que esta Navidad esté llena de alegría para ti. 
+                
+                Atte: Brandon 🧸
+            </div>
+            <button class="close-modal" onclick="closeLetter()">Cerrar cartita</button>
+        </div>
+    </div>
 
-        function initAudio() {
-            audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            gainNode = audioContext.createGain();
-            gainNode.connect(audioContext.destination);
+    <div id="player"></div>
+
+    <script>
+        /* =========================================
+           1. GENERADOR DE FONDO DE ESTRELLAS
+           ========================================= */
+        function createStars() {
+            const starField = document.getElementById('starField');
+            const count = 50; // Cantidad de estrellas
+
+            for (let i = 0; i < count; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                
+                // Posición aleatoria
+                const x = Math.random() * 100;
+                const y = Math.random() * 100;
+                
+                // Tamaño aleatorio
+                const size = Math.random() * 3 + 1;
+                
+                // Duración de parpadeo aleatoria
+                const duration = Math.random() * 3 + 2;
+                const delay = Math.random() * 5;
+
+                star.style.left = x + '%';
+                star.style.top = y + '%';
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                star.style.setProperty('--duration', duration + 's');
+                star.style.setProperty('--delay', delay + 's');
+
+                starField.appendChild(star);
+            }
         }
 
-        function playMelody() {
-            if (!audioContext) initAudio();
-            
-            const notes = [
-                {freq: 523.25, duration: 0.3}, // C
-                {freq: 587.33, duration: 0.3}, // D
-                {freq: 659.25, duration: 0.3}, // E
-                {freq: 698.46, duration: 0.6}, // F
-                {freq: 659.25, duration: 0.3}, // E
-                {freq: 587.33, duration: 0.3}, // D
-                {freq: 523.25, duration: 0.6}, // C
-            ];
+        // Iniciar estrellas al cargar
+        createStars();
 
-            let time = audioContext.currentTime;
-            
-            notes.forEach(note => {
-                const osc = audioContext.createOscillator();
-                const noteGain = audioContext.createGain();
-                
-                osc.connect(noteGain);
-                noteGain.connect(gainNode);
-                
-                osc.frequency.value = note.freq;
-                osc.type = 'sine';
-                
-                noteGain.gain.setValueAtTime(0.3, time);
-                noteGain.gain.exponentialRampToValueAtTime(0.01, time + note.duration);
-                
-                osc.start(time);
-                osc.stop(time + note.duration);
-                
-                time += note.duration;
+        /* =========================================
+           2. LÓGICA DE YOUTUBE (JUAN GABRIEL)
+           ========================================= */
+        var player;
+        var isPlaying = false;
+        
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                height: '0',
+                width: '0',
+                videoId: 'yRj7r21dZ6I', // ID de "Me gustas mucho"
+                playerVars: {
+                    'playsinline': 1,
+                    'controls': 0,
+                    'loop': 1,
+                    'playlist': 'yRj7r21dZ6I' // Necesario para loop
+                },
+                events: {
+                    'onReady': onPlayerReady
+                }
             });
         }
 
-        document.getElementById('playBtn').addEventListener('click', function() {
-            const btn = this;
-            const icon = document.getElementById('playIcon');
-            const text = document.getElementById('playText');
-            
-            if (!isPlaying) {
+        function onPlayerReady(event) {
+            console.log("Reproductor listo");
+            // Ajustar volumen inicial bajo para no asustar, luego subir
+            event.target.setVolume(100);
+        }
+
+        function toggleMusic() {
+            const btn = document.getElementById('musicBtn');
+            const txt = document.getElementById('btnText');
+            const icon = btn.querySelector('.icon');
+
+            if (!player) return;
+
+            if (isPlaying) {
+                player.pauseVideo();
+                btn.classList.remove('playing');
+                txt.textContent = "Reproducir canción";
+                icon.textContent = "🎵";
+                isPlaying = false;
+            } else {
+                player.playVideo();
                 btn.classList.add('playing');
-                icon.textContent = '⏸️';
-                text.textContent = 'Pausar música';
+                txt.textContent = "Sonando: Me gustas mucho...";
+                icon.textContent = "⏸";
                 isPlaying = true;
                 
-                playMelody();
-                setInterval(() => {
-                    if (isPlaying) playMelody();
-                }, 2500);
-            } else {
-                btn.classList.remove('playing');
-                icon.textContent = '▶️';
-                text.textContent = 'Música para ti';
-                isPlaying = false;
+                // Celebración visual al iniciar música
+                massiveBurst();
+            }
+        }
+
+        /* =========================================
+           3. SISTEMA DE MODAL (CARTA)
+           ========================================= */
+        function openLetter() {
+            const modal = document.getElementById('letterModal');
+            modal.classList.add('active');
+            
+            // Efecto de sonido (opcional, simulado visualmente con corazones)
+            createHeartBurst(window.innerWidth / 2, window.innerHeight / 2);
+        }
+
+        function closeLetter() {
+            const modal = document.getElementById('letterModal');
+            modal.classList.remove('active');
+        }
+
+        // Cerrar al hacer click fuera del contenido
+        document.getElementById('letterModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeLetter();
             }
         });
 
-        // CREAR OSITOS QUE LLUEVEN
-        function createFallingBear() {
-            const bear = document.createElement('div');
-            bear.className = 'falling-bear';
-            bear.textContent = '🧸';
-            bear.style.left = Math.random() * 100 + '%';
-            bear.style.top = '-50px';
-            const duration = Math.random() * 3 + 3;
-            bear.style.animationDuration = duration + 's';
-            document.body.appendChild(bear);
+        /* =========================================
+           4. SISTEMA DE PARTÍCULAS (OSOS Y CORAZONES)
+           ========================================= */
+        const isMobile = window.innerWidth < 768;
 
-            bear.addEventListener('click', function(e) {
-                createHeartBurst(e.pageX, e.pageY);
-                createLoveText(e.pageX, e.pageY);
-                bear.remove();
+        function createFallingItem() {
+            const item = document.createElement('div');
+            item.className = 'falling-item';
+            
+            // 60% Osos, 40% otros emojis
+            const rand = Math.random();
+            if (rand < 0.6) item.textContent = '🧸';
+            else if (rand < 0.8) item.textContent = '💖';
+            else item.textContent = '✨';
+
+            // Posición X aleatoria (evitando bordes extremos)
+            item.style.left = Math.random() * 90 + 5 + '%';
+            
+            // Velocidad aleatoria
+            const duration = Math.random() * 5 + 4; // Entre 4 y 9 segundos
+            item.style.animationDuration = duration + 's';
+
+            document.body.appendChild(item);
+
+            // Interacción al tocar el elemento que cae
+            item.addEventListener('click', function(e) {
+                // Prevenir que el click atraviese
+                e.stopPropagation();
+                
+                const rect = item.getBoundingClientRect();
+                createHeartBurst(rect.left + rect.width/2, rect.top + rect.height/2);
+                createFloatingText(rect.left, rect.top);
+                item.remove();
             });
 
+            // Limpieza de memoria
             setTimeout(() => {
-                if (bear.parentNode) bear.remove();
+                if (item.parentNode) item.remove();
             }, duration * 1000);
         }
 
-        // EXPLOSIÓN DE CORAZONES
-        function createHeartBurst(x, y) {
-            const hearts = ['💖', '💕', '💗', '💓', '💝', '❤️'];
-            const numHearts = 8;
+        /* =========================================
+           5. EFECTOS DE EXPLOSIÓN
+           ========================================= */
+        function manualBurst(e) {
+            createHeartBurst(e.clientX, e.clientY);
+            createFloatingText(e.clientX, e.clientY);
+        }
 
-            for (let i = 0; i < numHearts; i++) {
-                const heart = document.createElement('div');
-                heart.className = 'heart-burst';
-                heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
-                heart.style.left = x + 'px';
-                heart.style.top = y + 'px';
-
-                const angle = (Math.PI * 2 * i) / numHearts;
-                const distance = 80;
-                const tx = Math.cos(angle) * distance;
-                const ty = Math.sin(angle) * distance;
-
-                heart.style.setProperty('--tx', tx + 'px');
-                heart.style.setProperty('--ty', ty + 'px');
-
-                document.body.appendChild(heart);
-                setTimeout(() => heart.remove(), 1000);
+        function massiveBurst() {
+            // Lanza 3 ráfagas seguidas
+            for(let i=0; i<3; i++) {
+                setTimeout(() => {
+                    createHeartBurst(window.innerWidth/2, window.innerHeight/2);
+                }, i * 300);
             }
         }
 
-        // TEXTO "TE QUIERO"
-        function createLoveText(x, y) {
-            const phrases = ['Te quiero', '❤️ Te quiero ❤️', 'Te amo', '💕 Te adoro 💕'];
+        function createHeartBurst(x, y) {
+            const particles = ['❤️', '💕', '✨', '🌸', '😍', '💖'];
+            const particleCount = 12; // Más partículas
+
+            for (let i = 0; i < particleCount; i++) {
+                const p = document.createElement('div');
+                p.className = 'burst-particle';
+                p.textContent = particles[Math.floor(Math.random() * particles.length)];
+                p.style.left = x + 'px';
+                p.style.top = y + 'px';
+
+                // Física de explosión
+                const angle = Math.random() * Math.PI * 2;
+                const velocity = Math.random() * 150 + 60; // Velocidad variable
+                
+                const tx = Math.cos(angle) * velocity;
+                const ty = Math.sin(angle) * velocity;
+                const rot = Math.random() * 360;
+
+                p.style.setProperty('--tx', tx + 'px');
+                p.style.setProperty('--ty', ty + 'px');
+                p.style.setProperty('--rot', rot + 'deg');
+
+                document.body.appendChild(p);
+                setTimeout(() => p.remove(), 1000);
+            }
+        }
+
+        function createFloatingText(x, y) {
+            const phrases = [''¡Cafe!', '¡Mi Pao!', '💕','¡Eres...!'];
             const text = document.createElement('div');
-            text.className = 'love-text';
+            text.className = 'floating-text';
             text.textContent = phrases[Math.floor(Math.random() * phrases.length)];
-            text.style.left = (x - 50) + 'px';
+            
+            // Aleatoriedad en posición para que no se encimen
+            const offsetX = (Math.random() - 0.5) * 40;
+            
+            text.style.left = (x + offsetX) + 'px';
             text.style.top = y + 'px';
+            
             document.body.appendChild(text);
             setTimeout(() => text.remove(), 2000);
         }
 
-        // BRILLOS
-        function createSparkle() {
-            const sparkle = document.createElement('div');
-            sparkle.className = 'sparkle';
-            sparkle.style.left = Math.random() * 100 + '%';
-            sparkle.style.top = Math.random() * 100 + '%';
-            sparkle.style.animationDelay = Math.random() * 2 + 's';
-            document.body.appendChild(sparkle);
-            setTimeout(() => sparkle.remove(), 3000);
-        }
+        /* =========================================
+           6. INICIALIZACIÓN
+           ========================================= */
+        // Intervalo de lluvia de objetos
+        // Más rápido en PC, más lento en móvil para ahorrar batería
+        const rainSpeed = isMobile ? 800 : 400;
+        setInterval(createFallingItem, rainSpeed);
 
-        // OSOS ASTRONAUTAS
-        function createAstronautBear() {
-            const bear = document.createElement('div');
-            bear.className = 'astronaut-bear';
-            bear.innerHTML = '🧸🚀';
-            bear.style.left = Math.random() * 80 + '%';
-            bear.style.top = Math.random() * 80 + '%';
-            bear.style.animationDuration = (Math.random() * 10 + 15) + 's';
-            bear.style.animationDelay = Math.random() * 5 + 's';
-            document.body.appendChild(bear);
-        }
+        console.log("Sistema cargado: Listo para impresionar a Pao.");
 
-        // CONFIGURACIÓN RESPONSIVE
-        const isMobile = window.innerWidth <= 768;
-        const numAstronauts = isMobile ? 3 : 6;
-        
-        for (let i = 0; i < numAstronauts; i++) {
-            createAstronautBear();
-        }
-
-        const rainInterval = isMobile ? 600 : 400;
-        setInterval(createFallingBear, rainInterval);
-
-        const sparkleInterval = isMobile ? 800 : 500;
-        setInterval(createSparkle, sparkleInterval);
-
-        // CLICK EN OSOS ESTÁTICOS
-        document.querySelectorAll('.bear-static').forEach(bear => {
-            bear.addEventListener('click', function(e) {
-                const rect = bear.getBoundingClientRect();
-                const x = rect.left + rect.width / 2;
-                const y = rect.top + rect.height / 2;
-                createHeartBurst(x, y);
-                createLoveText(x, y);
-            });
-        });
     </script>
 </body>
 </html>
