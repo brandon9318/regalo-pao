@@ -3,18 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Para Pao 💕</title>
+    <title>BRANDON forever 💔</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
 
     <style>
-        /* =========================================
-           1. ESTILOS VISUALES
-           ========================================= */
         :root {
-            --primary: #ff69b4;
-            --secondary: #5c3a93;
-            --accent: #ff4757;
+            --primary: #6c757d;
+            --secondary: #495057;
+            --accent: #343a40;
             --white: #ffffff;
             --glass: rgba(255, 255, 255, 0.25);
             --border: rgba(255, 255, 255, 0.4);
@@ -25,7 +22,7 @@
 
         body {
             font-family: 'Quicksand', sans-serif;
-            background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             overflow: hidden;
             display: flex;
@@ -33,12 +30,10 @@
             align-items: center;
         }
 
-        /* Estrellas */
         .star-field { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
         .star { position: absolute; background: white; border-radius: 50%; opacity: 0; animation: twinkle var(--dur) ease-in-out infinite; animation-delay: var(--del); }
         @keyframes twinkle { 0% { opacity: 0; transform: scale(0); } 50% { opacity: 0.8; transform: scale(1); } 100% { opacity: 0; transform: scale(0); } }
 
-        /* Tarjeta */
         .container {
             position: relative; z-index: 10; padding: 2.5rem; width: 90%; max-width: 600px;
             background: var(--glass); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
@@ -49,13 +44,47 @@
 
         h1 { font-family: 'Pacifico', cursive; font-size: clamp(2.5rem, 6vw, 4rem); color: var(--white); text-shadow: 2px 2px 4px rgba(0,0,0,0.2); margin-bottom: 15px; line-height: 1.2; }
         .subtitle { font-size: clamp(1.1rem, 3.5vw, 1.4rem); color: var(--white); margin-bottom: 25px; font-weight: 600; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); }
-        .details { font-size: clamp(0.9rem, 2.5vw, 1.1rem); color: var(--secondary); background: rgba(255,255,255,0.5); padding: 8px 20px; border-radius: 50px; display: inline-block; margin-bottom: 30px; font-weight: 700; }
+        
+        .counter-container {
+            background: rgba(255,255,255,0.3);
+            padding: 20px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .counter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .counter-item {
+            background: rgba(255,255,255,0.5);
+            padding: 15px 10px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        
+        .counter-value {
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            font-weight: 800;
+            color: var(--secondary);
+            display: block;
+        }
+        
+        .counter-label {
+            font-size: clamp(0.7rem, 2vw, 0.9rem);
+            color: var(--accent);
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-top: 5px;
+        }
 
-        /* Botones */
         .controls { display: flex; flex-direction: column; gap: 15px; align-items: center; margin-bottom: 30px; }
         .btn {
             border: none; padding: 14px 35px; font-size: 1.1rem; font-family: 'Quicksand', sans-serif; font-weight: 700;
-            border-radius: 50px; cursor: pointer; box-shadow: 0 5px 15px rgba(255, 105, 180, 0.4);
+            border-radius: 50px; cursor: pointer; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
             transition: 0.3s; display: flex; align-items: center; gap: 10px; width: 80%; max-width: 300px; justify-content: center;
             position: relative; overflow: hidden;
         }
@@ -64,43 +93,24 @@
         .btn:active { transform: scale(0.95); }
         .btn-music { background: var(--primary); color: white; }
         .btn-music.playing { background: var(--accent); animation: pulse 2s infinite; }
-        .btn-letter { background: white; color: var(--secondary); }
-        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.7); } 70% { box-shadow: 0 0 0 20px rgba(255, 71, 87, 0); } }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(52, 58, 64, 0.7); } 70% { box-shadow: 0 0 0 20px rgba(52, 58, 64, 0); } }
 
-        /* Ositos */
         .bears { display: flex; justify-content: center; gap: 20px; }
         .bear-icon { font-size: clamp(3rem, 10vw, 4.5rem); cursor: pointer; transition: 0.4s; filter: drop-shadow(0 8px 8px rgba(0,0,0,0.15)); user-select: none; }
         .bear-icon:hover { transform: scale(1.2) rotate(10deg) translateY(-10px); }
 
-        /* Efectos */
         .falling-item { position: absolute; top: -50px; font-size: 2rem; animation: fall linear forwards; cursor: pointer; z-index: 5; }
         @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
         .burst { position: absolute; pointer-events: none; animation: fly 1s ease-out forwards; font-size: 1.5rem; z-index: 20; }
         @keyframes fly { to { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(1.5) rotate(var(--r)); } }
-        .float-text { position: absolute; font-size: 1.5rem; color: white; font-weight: 800; text-shadow: 0 2px 4px rgba(0,0,0,0.5); pointer-events: none; z-index: 25; animation: floatUp 2s ease-out forwards; }
-        @keyframes floatUp { to { opacity: 0; transform: translateY(-100px); } }
 
-        /* Modal Carta */
-        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 100; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: 0.4s; padding: 20px; }
-        .modal.active { opacity: 1; pointer-events: all; }
-        .modal-box { background: white; padding: 30px; border-radius: 20px; max-width: 500px; width: 100%; transform: translateY(50px); transition: 0.4s; max-height: 80vh; overflow-y: auto; }
-        .modal.active .modal-box { transform: translateY(0); }
-        .modal-title { font-family: 'Pacifico', cursive; font-size: 2rem; color: var(--primary); text-align: center; margin-bottom: 20px; border-bottom: 2px dashed #eee; }
-        .modal-text { font-size: 1.1rem; color: #444; line-height: 1.8; margin-bottom: 25px; white-space: pre-line; }
-        .btn-close { display: block; margin: 0 auto; background: var(--secondary); color: white; border: none; padding: 10px 25px; border-radius: 30px; font-weight: bold; cursor: pointer; }
-
-        /* =========================================
-           7. REPRODUCTOR VISIBLE PERO TRANSPARENTE
-           ========================================= */
-        /* Esto es clave: El video está en la esquina, ocupando espacio,
-           pero es invisible. Así el navegador NO lo bloquea. */
         #player {
             position: fixed;
             bottom: 20px;
             right: 20px;
             width: 1px;
             height: 1px;
-            opacity: 0.01; /* Casi invisible, pero el navegador lo ve */
+            opacity: 0.01;
             pointer-events: none;
             z-index: 9999;
         }
@@ -110,49 +120,48 @@
     <div class="star-field" id="stars"></div>
 
     <div class="container">
-        <h1>¡Te quiero mucho, Pao! 💖</h1>
-        <div class="subtitle">¡Eres muy especial! ✨</div>
-        <div class="details">De Brandon para Pao 🎄 Feliz Navidad</div>
+        <h1>BRANDON forever 💔</h1>
+        <div class="subtitle">Desde aquel día...</div>
+
+        <div class="counter-container">
+            <div style="font-size: 1.2rem; color: white; font-weight: 600; margin-bottom: 10px;">⏳ Tiempo transcurrido</div>
+            <div class="counter-grid">
+                <div class="counter-item">
+                    <span class="counter-value" id="days">0</span>
+                    <span class="counter-label">Días</span>
+                </div>
+                <div class="counter-item">
+                    <span class="counter-value" id="hours">0</span>
+                    <span class="counter-label">Horas</span>
+                </div>
+                <div class="counter-item">
+                    <span class="counter-value" id="minutes">0</span>
+                    <span class="counter-label">Minutos</span>
+                </div>
+                <div class="counter-item">
+                    <span class="counter-value" id="seconds">0</span>
+                    <span class="counter-label">Segundos</span>
+                </div>
+            </div>
+        </div>
 
         <div class="controls">
             <button class="btn btn-music" id="musicBtn" onclick="toggleMusic()">
-                <span>🎵</span> <span id="btnText">Dedicar canción</span>
-            </button>
-            
-            <button class="btn btn-letter" onclick="toggleLetter(true)">
-                <span>💌</span> <span>Leer cartita</span>
+                <span>🎵</span> <span id="btnText">Reproducir canción</span>
             </button>
         </div>
 
         <div class="bears">
-            <span class="bear-icon" onclick="burst(event)">🧸</span>
-            <span class="bear-icon" onclick="burst(event)">❤️</span>
-            <span class="bear-icon" onclick="burst(event)">🧸</span>
-        </div>
-    </div>
-
-    <div class="modal" id="letterModal" onclick="if(event.target===this) toggleLetter(false)">
-        <div class="modal-box">
-            <div class="modal-title">Para Pao 💕</div>
-            <div class="modal-text">
-                ¡Hola Pao! 
-                
-                Quería darte este pequeño detalle para recordarte lo especial que eres.
-                
-                Espero que pases una Navidad increíble. Me encanta compartir momentos contigo.
-                
-                ¡Te quiero mucho! ✨
-                
-                Atte: Brandon 🧸
-            </div>
-            <button class="btn-close" onclick="toggleLetter(false)">Cerrar</button>
+            <span class="bear-icon" onclick="burst(event)">💔</span>
+            <span class="bear-icon" onclick="burst(event)">🖤</span>
+            <span class="bear-icon" onclick="burst(event)">💔</span>
         </div>
     </div>
 
     <div id="player"></div>
 
     <script>
-        // 1. ESTRELLAS
+        // ESTRELLAS
         const starsObj = document.getElementById('stars');
         for(let i=0; i<50; i++) {
             const s = document.createElement('div');
@@ -165,7 +174,28 @@
             starsObj.appendChild(s);
         }
 
-        // 2. CONFIGURACIÓN DE YOUTUBE (Robustez Máxima)
+        // CONTADOR
+        const breakupDate = new Date('2026-01-07T21:00:00');
+        
+        function updateCounter() {
+            const now = new Date();
+            const diff = now - breakupDate;
+            
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            document.getElementById('days').textContent = days;
+            document.getElementById('hours').textContent = hours;
+            document.getElementById('minutes').textContent = minutes;
+            document.getElementById('seconds').textContent = seconds;
+        }
+        
+        updateCounter();
+        setInterval(updateCounter, 1000);
+
+        // YOUTUBE
         var player, isPlaying = false;
         var tag = document.createElement('script');
         tag.src = "https://www.youtube.com/iframe_api";
@@ -173,15 +203,14 @@
 
         function onYouTubeIframeAPIReady() {
             player = new YT.Player('player', {
-                height: '200', // Tamaño "real" para engañar al navegador
+                height: '200',
                 width: '200',
-                // El video que me pasaste: Juan Gabriel - Me Gustas Mucho
-                videoId: 'h7q_qMNciHs', 
+                videoId: 'yG7MPEQm1-w',
                 playerVars: { 
-                    'playsinline': 1, // Importante para iPhone
+                    'playsinline': 1,
                     'controls': 0, 
                     'loop': 1, 
-                    'playlist': 'h7q_qMNciHs', 
+                    'playlist': 'yG7MPEQm1-w',
                     'origin': window.location.origin
                 },
                 events: { 
@@ -194,12 +223,10 @@
 
         function onPlayerReady(event) {
             console.log("Reproductor listo.");
-            // Intentar subir volumen al máximo
             event.target.setVolume(100);
         }
 
         function onPlayerStateChange(event) {
-            // Si el video termina o se pausa por error, intentar reproducir si debería estar sonando
             if (event.data === YT.PlayerState.ENDED && isPlaying) {
                 player.playVideo();
             }
@@ -215,7 +242,6 @@
             const txt = document.getElementById('btnText');
             
             if(!player) {
-                // Si el usuario da clic muy rápido antes de que cargue YouTube
                 alert("Cargando la música... espera un segundo y vuelve a dar clic.");
                 return;
             }
@@ -226,34 +252,24 @@
                 txt.textContent = "Reproducir canción";
                 isPlaying = false;
             } else {
-                // AQUÍ OCURRE LA MAGIA DEL AUDIO
                 player.playVideo();
-                // Asegurar volumen otra vez al dar click
                 player.setVolume(100);
                 
                 btn.classList.add('playing');
-                txt.textContent = "Sonando: Me gustas mucho...";
+                txt.textContent = "Sonando...";
                 isPlaying = true;
                 
-                // Efecto visual
                 for(let i=0; i<3; i++) setTimeout(() => 
                     createBurst(window.innerWidth/2, window.innerHeight/2), i*300);
             }
         }
 
-        // 3. INTERFAZ
-        function toggleLetter(show) {
-            const m = document.getElementById('letterModal');
-            show ? m.classList.add('active') : m.classList.remove('active');
-        }
-
         function burst(e) {
             createBurst(e.clientX, e.clientY);
-            createFloatText(e.clientX, e.clientY);
         }
 
         function createBurst(x, y) {
-            const symbols = ['❤️', '💕', '✨', '🌸', '💖'];
+            const symbols = ['💔', '🖤', '😢', '💀', '⛓️'];
             for(let i=0; i<12; i++) {
                 const p = document.createElement('div');
                 p.className = 'burst';
@@ -271,22 +287,11 @@
             }
         }
 
-        function createFloatText(x, y) {
-            const texts = ['¡Te Quiero!', '¡Linda!', '💕', '¡Me Gustas!'];
-            const t = document.createElement('div');
-            t.className = 'float-text';
-            t.textContent = texts[Math.floor(Math.random()*texts.length)];
-            t.style.left = (x + (Math.random()-0.5)*40) + 'px';
-            t.style.top = y + 'px';
-            document.body.appendChild(t);
-            setTimeout(() => t.remove(), 2000);
-        }
-
-        // 4. LLUVIA
+        // LLUVIA
         setInterval(() => {
             const el = document.createElement('div');
             el.className = 'falling-item';
-            el.textContent = Math.random()>0.5 ? '🧸' : '💖';
+            el.textContent = Math.random()>0.5 ? '💔' : '🖤';
             el.style.left = Math.random()*90+5 + '%';
             el.style.animationDuration = (Math.random()*5+4) + 's';
             document.body.appendChild(el);
@@ -298,7 +303,6 @@
             };
             setTimeout(() => { if(el.parentNode) el.remove(); }, 9000);
         }, window.innerWidth<768 ? 800 : 400);
-
     </script>
 </body>
 </html>
